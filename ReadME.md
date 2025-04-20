@@ -15,8 +15,7 @@ PostgreSQL – Stores customer orders
 Others: CORS, dotenv, pg, mongoose
 
 📦 Project Structure
-php
-Copy code
+
 digital-diner/
 ├── backend/
 │ ├── config/
