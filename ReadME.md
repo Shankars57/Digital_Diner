@@ -47,11 +47,13 @@ digital-diner/
    bash
    Copy
    Edit
-   git clone https://github.com/your-username/digital-diner.git
+   git clone https://github.com/Shankars57/digital-diner.git
    cd digital-diner
 2. Setup MongoDB & PostgreSQL
-   MongoDB should run locally on:
-   mongodb://localhost:27017/digital-diner
+   MongoDB should run on MongoDB atlas :
+   --> mongodb+srv://shankar:admin@cluster0.liimvo6.mongodb.net/
+   PostgreSQL running on Neon serverless postgreSQL:
+   -->postgresql:neondb_owner:npg_UxmRH2nVX3SA@ep-old-credit-a4kfodwg-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
 
 PostgreSQL:
 

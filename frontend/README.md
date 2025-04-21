@@ -1,7 +1,7 @@
 🍽️ Digital Diner
 A full-stack restaurant ordering system built with the MERN stack (MongoDB + Express + React + Node.js) and PostgreSQL. Customers can browse a dynamic menu, place orders, and view their order history using their phone number.
 
-My website Link : http://68065920496a5e07bbf96aad--digitial-diner.netlify.app/
+My website Link :https://digitial-diner.netlify.app/
 
 🚀 Tech Stack
 Frontend: React, Axios, CSS
@@ -43,10 +43,12 @@ digital-diner/
 1. Clone the repo
    bash
    Copy code
-   git clone https://github.com/your-username/digital-diner.git
+   git clone https://github.com/Shankars57/digital-diner.git
    cd digital-diner
 2. Setup MongoDB & PostgreSQL
-   MongoDB must be running locally on mongodb://localhost:27017/digital-diner
+   MongoDB must be running on MongoDb Atlas :
+   
+   PostgreSQL must be running on Neon PostgreSQL
 
 Create a PostgreSQL database named digital_diner and a table:
 

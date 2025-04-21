@@ -88,7 +88,8 @@ app.get("/api/orders/:phone", async (req, res) => {
 
 // ✅ Connect to MongoDB (use local or from .env)
 const mongoURI =
-  process.env.MONGO_URI || "mongodb://localhost:27017/digital-diner";
+  process.env.MONGO_URI ||
+  "mongodb+srv://shankar:admin@cluster0.liimvo6.mongodb.net/";
 mongoose
   .connect(mongoURI)
   .then(() => console.log("MongoDB connected"))
