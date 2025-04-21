@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./NavBar.css";
+import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
 const NavBar = ({ setShowLogin }) => {
