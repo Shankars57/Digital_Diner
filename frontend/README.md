@@ -43,12 +43,13 @@ digital-diner/
 1. Clone the repo
    bash
    Copy code
-   git clone https://github.com/Shankars57/digital-diner.git
+   git clone https://github.com/Shankars57/Digital_Diner
    cd digital-diner
 2. Setup MongoDB & PostgreSQL
-   MongoDB must be running on MongoDb Atlas :
-   
-   PostgreSQL must be running on Neon PostgreSQL
+   MongoDB should run on MongoDB atlas :
+   --> mongodb+srv://shankar:admin@cluster0.liimvo6.mongodb.net/
+   PostgreSQL running on Neon serverless postgreSQL:
+   -->postgresql:neondb_owner:npg_UxmRH2nVX3SA@ep-old-credit-a4kfodwg-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
 
 Create a PostgreSQL database named digital_diner and a table:
 
