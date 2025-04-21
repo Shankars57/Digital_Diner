@@ -156,3 +156,16 @@ button:hover {
 hr {
   margin: 10px 0;
 }
+
+@media (max-width:768px){
+  .place-order{
+    justify-content: center;
+    flex-direction: column;
+  }
+  .place-order-left{
+    width:100%;
+  }
+  .place-order-right{
+    width:100%;
+  }
+}
