@@ -1,67 +1,72 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../config/postgres'); // your PostgreSQL connection pool
-const MenuItem = require('../models/MenuItem'); // MongoDB menu model
+const MenuItem = require("../models/MenuItem");
+const { createOrder, getOrdersByPhone } = require("../models/Order");
 
-// GET menu (MongoDB)
-router.get('/menu', async (req, res) => {
+// GET /menu (from MongoDB)
+router.get("/menu", async (req, res) => {
   try {
     const items = await MenuItem.find();
     res.json(items);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch menu', error: err.message });
+    console.error("❌ Menu fetch error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch menu", error: err.message });
   }
 });
 
-// POST order (PostgreSQL)
-router.post('/orders', async (req, res) => {
-  const client = await pool.connect();
+// POST /orders
+router.post("/orders", async (req, res) => {
   try {
-    const { customerName, phoneNumber, email, address, items, total } = req.body;
+    const { customerName, phoneNumber, email, address, items, total } =
+      req.body;
+    console.log("📦 Incoming order data:", req.body);
 
-    if (!customerName || !phoneNumber || !items || items.length === 0) {
-      return res.status(400).json({ message: 'Missing required order fields' });
+    // Basic validation
+    if (
+      !customerName ||
+      !phoneNumber ||
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      isNaN(total)
+    ) {
+      return res.status(400).json({ message: "Invalid order data" });
     }
 
-    await client.query('BEGIN');
-    const result = await client.query(
-      `INSERT INTO orders (customer_name, phone_number, email, address, items, total)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id`,
-      [
-        customerName,
-        phoneNumber,
-        email,
-        JSON.stringify(address),
-        JSON.stringify(items),
-        total,
-      ]
-    );
-    await client.query('COMMIT');
+    const orderId = await createOrder({
+      customerName,
+      phoneNumber,
+      email,
+      address,
+      items,
+      total,
+    });
 
-    res.status(201).json({ message: 'Order placed', orderId: result.rows[0].id });
+    res.status(201).json({ message: "Order placed successfully", orderId });
   } catch (err) {
-    await client.query('ROLLBACK');
-    res.status(500).json({ message: 'Order submission failed', error: err.message });
-  } finally {
-    client.release();
+    res.status(500).json({
+      message: "Order submission failed",
+      error: err.message,
+      detail: err.detail || "No detail provided",
+      stack: err.stack,
+    });
   }
 });
 
-// GET order history (PostgreSQL)
-router.get('/orders/:phone', async (req, res) => {
-  const client = await pool.connect();
+// GET /orders/:phone
+router.get("/orders/:phone", async (req, res) => {
+  const phone = req.params.phone;
+
   try {
-    const phone = req.params.phone;
-    const result = await client.query(
-      'SELECT * FROM orders WHERE phone_number = $1 ORDER BY id DESC',
-      [phone]
-    );
-    res.json(result.rows);
+    const orders = await getOrdersByPhone(phone);
+    res.json(orders);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch order history', error: err.message });
-  } finally {
-    client.release();
+    res.status(500).json({
+      message: "Failed to fetch order history",
+      error: err.message,
+      detail: err.detail || "No detail provided",
+    });
   }
 });
 

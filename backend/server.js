@@ -2,16 +2,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const apiRoutes = require("./routes/api");
-const pool = require("./config/postgres"); // your PostgreSQL connection pool
+const pool = require("./config/postgres"); // PostgreSQL connection pool
+require("dotenv").config(); // for environment variables
 
 const app = express();
 
+// CORS setup (can be customized)
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Digital Diner API!");
+});
+// 🌐 POST /api/orders
 app.post("/api/orders", async (req, res) => {
   const { customerName, phoneNumber, email, address, items, total } = req.body;
-
   console.log("Incoming Order:", req.body);
 
   try {
@@ -37,7 +42,6 @@ app.post("/api/orders", async (req, res) => {
     console.log("✅ Order inserted:", result.rows[0]);
 
     client.release();
-
     res.status(201).json({ message: "Order placed successfully!" });
   } catch (err) {
     console.error("❌ PostgreSQL insert error:", err);
@@ -47,6 +51,7 @@ app.post("/api/orders", async (req, res) => {
   }
 });
 
+// 🌐 GET /api/orders/:phone
 app.get("/api/orders/:phone", async (req, res) => {
   const { phone } = req.params;
   console.log("📞 Fetching orders for phone number:", phone);
@@ -81,11 +86,25 @@ app.get("/api/orders/:phone", async (req, res) => {
   }
 });
 
+// ✅ Connect to MongoDB (use local or from .env)
+const mongoURI =
+  process.env.MONGO_URI || "mongodb://localhost:27017/digital-diner";
 mongoose
-  .connect("mongodb://localhost:27017/digital-diner")
+  .connect(mongoURI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB error:", err));
-
+pool
+  .connect()
+  .then((client) => {
+    console.log("🐘 PostgreSQL pool connected successfully!");
+    client.release(); // always release after check
+  })
+  .catch((err) => {
+    console.error("❌ PostgreSQL pool connection failed:", err.message);
+  });
+// 👇 Add other routes if needed
 app.use("/api", apiRoutes);
 
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+// ✅ PORT handling for Render (default: 5000)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

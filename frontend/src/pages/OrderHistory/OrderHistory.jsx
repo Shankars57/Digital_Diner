@@ -10,7 +10,9 @@ const OrderHistory = () => {
   const fetchOrders = async () => {
     try {
       // Make the API request
-      const res = await axios.get(`http://localhost:5000/api/orders/${phoneNumber}`);
+      const res = await axios.get(
+        `http://localhost:5000/api/orders/${phoneNumber}`
+      );
 
       // Check if the response is an array and set it
       if (Array.isArray(res.data)) {

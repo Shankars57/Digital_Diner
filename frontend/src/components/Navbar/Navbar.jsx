@@ -72,10 +72,14 @@ const NavBar = ({ setShowLogin }) => {
         </li>
       </ul>
       <div className="navbar-right">
-      <div className="nav-orders"><Link to="/order-history">History</Link></div>
+        <div className="nav-orders">
+          <Link to="/order-history" title="History">
+            History
+          </Link>
+        </div>
         <div className="navbar-search-icon">
           <Link to="/cart">
-            <img src={assets.basket_icon} alt="" />
+            <img title="cart" src={assets.basket_icon} alt="" />
           </Link>
           <div className="dot"></div>
         </div>
