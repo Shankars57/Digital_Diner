@@ -5,21 +5,20 @@ import "./Order.css";
 const OrderHistory = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState(null); // For handling errors
+  const [error, setError] = useState(null);
 
   const fetchOrders = async () => {
     try {
-      // Make the API request
       const res = await axios.get(
-        `http://localhost:5000/api/orders/${phoneNumber}`
+        `https://digital-diner-assignment.onrender.com/api/orders/${phoneNumber}`
       );
 
-      // Check if the response is an array and set it
       if (Array.isArray(res.data)) {
         setOrders(res.data);
+        setError(null); // Clear any previous error
       } else {
         setError("No orders found for this phone number.");
-        setOrders([]); // Clear orders in case the response is not an array
+        setOrders([]);
       }
     } catch (err) {
       console.error("Failed to fetch orders", err);
@@ -40,10 +39,8 @@ const OrderHistory = () => {
       />
       <button onClick={fetchOrders}>Search</button>
 
-      {/* Display error if any */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* If no orders are found, show a message */}
       {orders.length === 0 && !error ? (
         <p>No orders found for this phone number.</p>
       ) : (

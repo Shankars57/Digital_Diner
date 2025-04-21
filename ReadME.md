@@ -1,5 +1,5 @@
 🍽️ Digital Diner
-A full-stack restaurant ordering system built with the MERN stack (MongoDB + Express + React + Node.js) and PostgreSQL. Customers can browse a dynamic menu, place orders, and view their order history using their phone number.
+A full-stack restaurant ordering system built with the MERN stack (MongoDB + Express + React + Node.js) and PostgreSQL. Customers can browse a dynamic menu, add items to a cart, place orders, and view their order history using their phone number.
 
 🚀 Tech Stack
 Frontend: React, Axios, CSS
@@ -15,7 +15,9 @@ PostgreSQL – Stores customer orders
 Others: CORS, dotenv, pg, mongoose
 
 📦 Project Structure
-
+php
+Copy
+Edit
 digital-diner/
 ├── backend/
 │ ├── config/
@@ -28,28 +30,34 @@ digital-diner/
 ├── frontend/
 │ ├── src/
 │ │ ├── components/
-│ │ │ └── OrderConfirm.jsx
-│ │ │ └── OrderHistory.jsx
-│ │ └── context/ # Cart context
+│ │ │ ├── OrderConfirm.jsx # Order placement form
+│ │ │ ├── OrderHistory.jsx # Order history by phone
+│ │ │ └── Menu.jsx # Displays dynamic menu
+│ │ ├── context/
+│ │ │ └── ContextProvider.jsx # Cart context logic
+│ │ └── App.js
 │ ├── public/
-│ └── App.js
-│
 ├── README.md
 └── package.json
 📥 Installation
 
-1. Clone the repo
+1. Clone the Repo
    bash
-   Copy code
+   Copy
+   Edit
    git clone https://github.com/your-username/digital-diner.git
    cd digital-diner
 2. Setup MongoDB & PostgreSQL
-   MongoDB must be running locally on mongodb://localhost:27017/digital-diner
+   MongoDB should run locally on:
+   mongodb://localhost:27017/digital-diner
 
-Create a PostgreSQL database named digital_diner and a table:
+PostgreSQL:
 
 sql
-Copy code
+Copy
+Edit
+CREATE DATABASE digital_diner;
+
 CREATE TABLE orders (
 id SERIAL PRIMARY KEY,
 customer_name TEXT,
@@ -60,23 +68,24 @@ items JSONB,
 total NUMERIC
 ); 3. Backend Setup
 bash
-Copy code
+Copy
+Edit
 cd backend
 npm install
 node server.js 4. Frontend Setup
 bash
-Copy code
+Copy
+Edit
 cd frontend
 npm install
 npm start
 🧪 API Endpoints
-POST /api/orders
-Place a new order.
-
+✅ POST /api/orders – Place a new order
 Request Body:
 
 json
-Copy code
+Copy
+Edit
 {
 "customerName": "John Doe",
 "phoneNumber": "1234567890",
@@ -89,17 +98,21 @@ Copy code
 "country": "Country"
 },
 "items": [
-{ "itemId": "abc123", "name": "Burger", "price": 10, "quantity": 2 }
+{
+"itemId": "abc123",
+"name": "Burger",
+"price": 10,
+"quantity": 2
+}
 ],
 "total": 22
 }
-GET /api/orders/:phone
-Fetch order history using a phone number.
-
+✅ GET /api/orders/:phone – Fetch order history by phone number
 Response:
 
 json
-Copy code
+Copy
+Edit
 [
 {
 "customer_name": "John Doe",
@@ -108,7 +121,40 @@ Copy code
 "total": 22
 }
 ]
-✅ Features
+🧾 Frontend Features
+🍔 Dynamic Menu (MongoDB)
+Menu items are fetched from MongoDB using Axios on component mount.
+
+Displayed via the Menu.jsx component.
+
+Each item has a name, image, price, and "Add to Cart" button.
+
+🛒 Cart Functionality (Context API)
+Uses ContextProvider.jsx for managing cart state.
+
+Cart updates are available across all pages.
+
+Calculates subtotal, delivery fee, and total dynamically.
+
+📦 Order Placement (OrderConfirm.jsx)
+Customers fill in:
+
+Name, Email, Phone
+
+Address
+
+Cart items and total are submitted to the backend via Axios.
+
+Success/failure message shown and redirected to order history after submission.
+
+📜 Order History (OrderHistory.jsx)
+Customers enter their phone number to fetch past orders.
+
+Results are displayed with item breakdown and total cost.
+
+Uses Axios to hit the /api/orders/:phone endpoint.
+
+✅ Key Features
 🧾 Place orders with full customer and cart data
 
 📜 View order history by phone number
@@ -120,7 +166,7 @@ Copy code
 💡 Future Improvements
 Admin dashboard for order management
 
-Email/SMS confirmation
+Email/SMS order confirmation
 
 Payment integration (Stripe or Razorpay)
 
