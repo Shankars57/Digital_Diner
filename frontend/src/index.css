@@ -28,3 +28,34 @@ a {
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .app {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .app {
+    width: 100%;
+  }
+}
+@media (max-width: 320px) {
+  .app {
+    width: 100%;
+  }
+}
+@media (max-width: 240px) {
+  .app {
+    width: 100%;
+  }
+}
+@media (max-width: 1200px) {
+  .app {
+    width: 100%;
+  }
+}
+@media (max-width: 992px) {
+  .app {
+    width: 100%;
+  }
+}
