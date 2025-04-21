@@ -9,6 +9,14 @@ const app = express();
 
 // CORS setup (can be customized)
 app.use(cors());
+
+app.use(
+  cors({
+    origin: "*", // or '*' for all origins (not recommended for production)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: false, // if you're using cookies/sessions
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
