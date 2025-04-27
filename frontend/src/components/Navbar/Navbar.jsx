@@ -25,7 +25,7 @@ const NavBar = ({ setShowLogin }) => {
   }, []);
   return (
     <div className={`navbar ${sticky ? "sticky" : ""}`}>
-      <div>
+      <div className="siteName">
         {" "}
         <Link to="/"> Digital-Diner🍽️</Link>
       </div>
