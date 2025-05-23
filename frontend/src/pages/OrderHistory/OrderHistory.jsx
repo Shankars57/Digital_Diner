@@ -7,11 +7,16 @@ const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
 
+  const [loader, setLoader] = useState(false);
+
   const fetchOrders = async () => {
+    setLoader(true);
     try {
       const res = await axios.get(
         `https://digital-diner-assignment.onrender.com/api/orders/${phoneNumber}`
       );
+
+      console.log(res);
 
       if (Array.isArray(res.data)) {
         setOrders(res.data);
@@ -22,8 +27,12 @@ const OrderHistory = () => {
       }
     } catch (err) {
       console.error("Failed to fetch orders", err);
-      setError("Could not load order history.");
+      setError(
+        "Could not load order history maybe please check your mobile number."
+      );
       setOrders([]);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -40,9 +49,14 @@ const OrderHistory = () => {
       <button onClick={fetchOrders}>Search</button>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
+      {loader && <div className="loader-container">Loading...</div>}
 
       {orders.length === 0 && !error ? (
-        <p>No orders found for this phone number.</p>
+        <p>
+          {!loader
+            ? "Please enter your phone number for the order history details."
+            : ""}
+        </p>
       ) : (
         <div className="order-items">
           <div className="order-items-header">

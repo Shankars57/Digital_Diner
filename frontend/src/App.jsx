@@ -8,6 +8,8 @@ import CartPage from "./pages/Cart/CartPage";
 import OrderHistory from "./pages/OrderHistory/OrderHistory";
 import OrderConfirm from "./pages/orderConfirm/OrderConfirm";
 import Footer from "./components/Footer/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function NotFound() {
   return (
@@ -22,6 +24,7 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   return (
     <>
+      <ToastContainer />
       {showLogin ? <Login setShowLogin={setShowLogin} /> : <></>}
       <div className="app">
         <Navbar setShowLogin={setShowLogin} />

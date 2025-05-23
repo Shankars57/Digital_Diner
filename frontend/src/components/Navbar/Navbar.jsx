@@ -1,8 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { contextParse } from "../../context/ContextProvider";
+import { useNavigate } from "react-router-dom";
 const NavBar = ({ setShowLogin }) => {
+  const { token, setToken } = useContext(contextParse);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setToken(null);
+    localStorage.removeItem("tokened");
+    setShowLogin(false);
+    toast.success("Logout successful");
+    navigate("/");
+  };
+
   const [menu, setMenu] = useState("home");
 
   const [sticky, setSticky] = useState(false);
@@ -23,6 +36,7 @@ const NavBar = ({ setShowLogin }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const isLoggedIn = Boolean(token);
   return (
     <div className={`navbar ${sticky ? "sticky" : ""}`}>
       <div className="siteName">
@@ -83,9 +97,17 @@ const NavBar = ({ setShowLogin }) => {
           </Link>
           <div className="dot"></div>
         </div>
-        <button onClick={() => setShowLogin(true)} type="button">
-          sign in
-        </button>
+        {isLoggedIn ? (
+          <div className="nav-orders">
+            <button onClick={handleLogout} title="Logout">
+              Logout
+            </button>
+          </div>
+        ) : (
+          <button onClick={() => setShowLogin(true)} type="button">
+            sign in
+          </button>
+        )}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const apiRoutes = require("./routes/api");
+const userRoutes = require("./routes/userRouter");
 const pool = require("./config/postgres"); // PostgreSQL connection pool
 require("dotenv").config(); // for environment variables
 
@@ -18,6 +19,8 @@ app.use(
   })
 );
 app.use(express.json());
+
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Digital Diner API!");

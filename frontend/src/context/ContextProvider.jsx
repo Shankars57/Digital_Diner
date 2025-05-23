@@ -4,6 +4,7 @@ import { food_list } from "../assets/assets";
 export const contextParse = createContext();
 
 const ContextProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
   let getCartAmount = () => {
     let totalAmount = 0;
     for (const items in cartItems) {
@@ -48,10 +49,7 @@ const ContextProvider = ({ children }) => {
     });
   }
 
-  // useEffect(() => {
-  //   console.log("Cart Items:", cartItems);
-  // }, [cartItems]);
-
+  const url = "https://digital-diner-assignment.onrender.com/api/users";
   const contextValue = {
     food_list,
     cartItems,
@@ -59,7 +57,17 @@ const ContextProvider = ({ children }) => {
     setCartItems,
     addToCart,
     removeFromCart,
+    url,
+    token,
+    setToken,
   };
+  useEffect(() => {
+    const storedToken = localStorage.getItem("tokened");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
   return (
     <contextParse.Provider value={contextValue}>
       {children}

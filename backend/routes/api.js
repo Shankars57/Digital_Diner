@@ -60,9 +60,14 @@ router.get("/orders/:phone", async (req, res) => {
 
   try {
     const orders = await getOrdersByPhone(phone);
-    res.json(orders);
+    res.json({
+      success: true,
+      message: "Successfully Fetched",
+      orders: orders,
+    });
   } catch (err) {
     res.status(500).json({
+      success: false,
       message: "Failed to fetch order history",
       error: err.message,
       detail: err.detail || "No detail provided",

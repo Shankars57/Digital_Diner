@@ -1,5 +1,6 @@
 const pool = require("../config/postgres");
 
+
 async function createOrder({
   customerName,
   phoneNumber,
@@ -13,7 +14,11 @@ async function createOrder({
     await client.query("BEGIN");
 
     const query = `
-      INSERT INTO orders (customer_name, phone_number, email, address, items, total)
+      INSERT INTO orders (customer_name, 
+      phone_number,
+       email, address,
+        items,
+         total)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING id;
     `;
