@@ -28,8 +28,8 @@ const LoginPopUp = ({ setShowLogin }) => {
 
     const endpoint =
       mode === "login"
-        ? "http://localhost:5000/api/users/login"
-        : "http://localhost:5000/api/users/register";
+        ? "https://digital-diner-assignment.onrender.com/api/users/login"
+        : "https://digital-diner-assignment.onrender.com/api/users/register";
 
     try {
       setLoading(true);

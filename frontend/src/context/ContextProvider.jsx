@@ -65,6 +65,7 @@ const ContextProvider = ({ children }) => {
     const storedToken = localStorage.getItem("tokened");
     if (storedToken) {
       setToken(storedToken);
+      localStorage.setItem("tokened", storedToken);
     }
   }, []);
 
